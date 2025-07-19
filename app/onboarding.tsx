@@ -371,8 +371,8 @@
 //     fontWeight: '600',
 //   },
 // });
-import { useRouter } from 'expo-router';
-import React, { useRef, useState } from 'react';
+import { useRouter } from "expo-router";
+import React, { useRef, useState } from "react";
 import {
   Dimensions,
   FlatList,
@@ -381,10 +381,10 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { onboardingData } from '../constants/onboardingData';
+} from "react-native";
+import { onboardingData } from "../constants/onboardingData";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 const Onboarding = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -400,7 +400,7 @@ const Onboarding = () => {
         animated: true,
       });
     } else {
-      router.replace('/signin');
+      router.replace("/signin");
     }
   };
 
@@ -416,7 +416,7 @@ const Onboarding = () => {
   };
 
   const handleSkip = () => {
-    router.replace('/signin');
+    router.replace("/(auth)/signin");
   };
 
   const handleScroll = (event: any) => {
@@ -460,7 +460,7 @@ const Onboarding = () => {
             key={i}
             style={[
               styles.dot,
-              { backgroundColor: i === currentIndex ? '#000' : '#ccc' },
+              { backgroundColor: i === currentIndex ? "#000" : "#ccc" },
             ]}
           />
         ))}
@@ -469,12 +469,16 @@ const Onboarding = () => {
       {/* Footer */}
       <View style={styles.footer}>
         <TouchableOpacity disabled={currentIndex === 0} onPress={handlePrev}>
-          <Text style={[styles.prev, currentIndex === 0 && { opacity: 0.4 }]}>Prev</Text>
+          <Text style={[styles.prev, currentIndex === 0 && { opacity: 0.4 }]}>
+            Prev
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleNext}>
           <Text style={styles.next}>
-            {currentIndex === onboardingData.length - 1 ? 'Get Started' : 'Next'}
+            {currentIndex === onboardingData.length - 1
+              ? "Get Started"
+              : "Next"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -490,42 +494,42 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   topRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
   skip: {
-    color: '#f00',
-    fontWeight: '500',
+    color: "#f00",
+    fontWeight: "500",
   },
   slide: {
     width: width - 40,
-    alignItems: 'center',
+    alignItems: "center",
   },
   image: {
     width: 280,
     height: 280,
     marginBottom: 30,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   title: {
     fontSize: 22,
-    fontWeight: '700',
+    fontWeight: "700",
     marginBottom: 12,
-    textAlign: 'center',
+    textAlign: "center",
   },
   desc: {
     fontSize: 14,
-    color: '#777',
-    textAlign: 'center',
+    color: "#777",
+    textAlign: "center",
     paddingHorizontal: 10,
   },
   dots: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     marginVertical: 20,
   },
   dot: {
@@ -535,17 +539,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   prev: {
-    color: '#999',
+    color: "#999",
     fontSize: 16,
   },
   next: {
-    color: '#d6336c',
-    fontWeight: '600',
+    color: "#d6336c",
+    fontWeight: "600",
     fontSize: 16,
   },
 });

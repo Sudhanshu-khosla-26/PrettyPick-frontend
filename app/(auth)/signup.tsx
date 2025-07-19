@@ -66,23 +66,76 @@
 //     textDecorationLine: 'underline',
 //   },
 // });
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { Link } from 'expo-router';
-import styles from './authStyles';
+import { Link, useRouter } from "expo-router";
+import React, { useState } from "react";
+import {
+  Image,
+  Text,
+  TextInput,
+  // ToastAndroid,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
+import styles from "./authStyles";
 
 export default function SignUp() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  let submit = async () => {
+    if (!email || !fullName || !password || !confirmPassword) {
+      alert("Please fill all the fields");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Password did not matched");
+      return;
+    }
+
+    const user = await fetch("http://localhost:5000/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: fullName,
+        email: email,
+        password: confirmPassword,
+      }),
+    });
+
+    localStorage.setItem("user", JSON.stringify(user));
+
+    if (user) {
+      setFullName("");
+      setConfirmPassword("");
+      setPassword("");
+      setEmail("");
+      router.replace("/(tabs)/home");
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/images/signup-illustration.png')} style={styles.illustration} />
+      <Image
+        source={require("../../assets/images/signup-illustration.png")}
+        style={styles.illustration}
+      />
 
       <Text style={styles.title}>Create an Account</Text>
       <Text style={styles.subtitle}>Join us and explore the best deals!</Text>
 
+      <TextInput
+        style={styles.input}
+        placeholder="Full Name"
+        value={fullName}
+        onChangeText={setFullName}
+      />
       <TextInput
         style={styles.input}
         placeholder="Email Address"
@@ -104,7 +157,7 @@ export default function SignUp() {
         onChangeText={setConfirmPassword}
       />
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={submit}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
@@ -116,7 +169,7 @@ export default function SignUp() {
       </View> */}
 
       <Text style={styles.bottomText}>
-        Already have an account?{' '}
+        Already have an account?{" "}
         <Link href="/signin" style={styles.linkText}>
           Sign In
         </Link>
