@@ -109,9 +109,8 @@ export default function SignUp() {
       }),
     });
 
-    localStorage.setItem("user", JSON.stringify(user));
-
     if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
       setFullName("");
       setConfirmPassword("");
       setPassword("");

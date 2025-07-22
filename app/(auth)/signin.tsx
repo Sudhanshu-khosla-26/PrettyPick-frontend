@@ -157,8 +157,11 @@ const SignInScreen = () => {
         password: password,
       }),
     });
+    let jsonUser = await user.json();
 
-    if (user) {
+    if (jsonUser) {
+      // console.log(jsonUser);
+      localStorage.setItem("user", JSON.stringify(jsonUser));
       router.replace("/(tabs)/home");
     }
   };
