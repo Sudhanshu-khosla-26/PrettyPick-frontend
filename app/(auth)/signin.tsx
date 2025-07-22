@@ -162,7 +162,7 @@ const SignInScreen = () => {
     if (jsonUser) {
       // console.log(jsonUser);
       localStorage.setItem("user", JSON.stringify(jsonUser));
-      router.replace("/(tabs)/home");
+      router.replace("/(tabs)/home/home");
     }
   };
 

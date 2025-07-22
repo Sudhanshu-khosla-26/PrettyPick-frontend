@@ -115,7 +115,7 @@ export default function SignUp() {
       setConfirmPassword("");
       setPassword("");
       setEmail("");
-      router.replace("/(tabs)/home");
+      router.replace("/(tabs)/home/home");
     }
   };
 

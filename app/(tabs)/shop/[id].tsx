@@ -1,6 +1,3 @@
-// app/(tabs)/shop/[id].tsx
-// app/(tabs)/shop/[id].tsx
-
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -16,21 +13,6 @@ import {
 } from "react-native";
 
 const sizes = ["S", "M", "L", "XL", "XXL"];
-
-// const similarProducts = [
-//   {
-//     id: 2,
-//     name: "Western Top",
-//     image: require("../../../assets/images/sec.jpg"),
-//     price: "₹499",
-//   },
-//   {
-//     id: 3,
-//     name: "Casual Kurti",
-//     image: require("../../../assets/images/kurti.jpg"),
-//     price: "₹799",
-//   },
-// ];
 
 const ProductDetailScreen = () => {
   const params = useLocalSearchParams();
@@ -88,7 +70,11 @@ const ProductDetailScreen = () => {
       <View style={styles.header}>
         <Ionicons name="chevron-back" size={24} onPress={() => router.back()} />
         <Text style={styles.headerTitle}>{itemDetails.name!}</Text>
-        <Ionicons name="cart-outline" size={24} />
+        <Ionicons
+          name="cart-outline"
+          onPress={() => router.replace("/shop/cart")}
+          size={24}
+        />
       </View>
 
       {/* Product Image */}

@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import React from "react";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const OrdersScreen = () => {
   const router = useRouter();
@@ -22,7 +22,7 @@ const OrdersScreen = () => {
       <View style={styles.card}>
         <View style={styles.topRow}>
           <Image
-            source={ require('../../assets/images/thir.jpg') }
+            source={require("../../../assets/images/thir.jpg")}
             style={styles.productImage}
           />
           <View style={styles.details}>
@@ -57,32 +57,32 @@ export default OrdersScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingTop: 50,
   },
   headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 20,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   headerText: {
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   card: {
-    backgroundColor: '#f2f9f6',
+    backgroundColor: "#f2f9f6",
     borderRadius: 16,
     padding: 14,
     marginBottom: 16,
     elevation: 3,
-    shadowColor: '#ccc',
+    shadowColor: "#ccc",
     shadowOpacity: 0.3,
     shadowOffset: { width: 0, height: 1 },
   },
   topRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 12,
   },
   productImage: {
@@ -92,59 +92,59 @@ const styles = StyleSheet.create({
   },
   details: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   name: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   label: {
     fontSize: 13,
     marginTop: 6,
   },
   variations: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 6,
     marginTop: 4,
   },
   tag: {
     borderWidth: 1,
-    borderColor: '#aaa',
+    borderColor: "#aaa",
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 12,
     fontSize: 12,
   },
   inStock: {
-    color: '#d6336c',
+    color: "#d6336c",
     marginTop: 4,
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 13,
   },
   priceTag: {
-    backgroundColor: '#e8f5ee',
-    alignSelf: 'flex-start',
+    backgroundColor: "#e8f5ee",
+    alignSelf: "flex-start",
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 8,
     marginTop: 6,
   },
   price: {
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 14,
   },
   metaRow: {
     borderTopWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     marginTop: 12,
     paddingTop: 8,
   },
   meta: {
     fontSize: 13,
-    color: '#333',
+    color: "#333",
     marginBottom: 4,
   },
   metaValue: {
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });

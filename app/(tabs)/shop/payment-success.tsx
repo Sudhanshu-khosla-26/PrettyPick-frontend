@@ -1,7 +1,7 @@
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 const PaymentSuccessScreen = () => {
   const router = useRouter();
@@ -13,7 +13,7 @@ const PaymentSuccessScreen = () => {
           name="chevron-back"
           size={24}
           color="#000"
-          onPress={() => router.replace('/')}
+          onPress={() => router.replace("/")}
         />
         <Text style={styles.headerText}>Checkout</Text>
         <View style={{ width: 24 }} />
@@ -21,7 +21,7 @@ const PaymentSuccessScreen = () => {
 
       <View style={styles.card}>
         <Image
-          source={require('../../assets/images/success.png')}
+          source={require("../../../assets/images/success.png")}
           style={styles.successIcon}
         />
         <Text style={styles.successText}>Payment done successfully.</Text>
@@ -36,32 +36,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 16,
   },
   headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   headerText: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   card: {
     marginTop: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   successIcon: {
     width: 120,
     height: 120,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     marginBottom: 20,
   },
   successText: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#1A7F64',
+    fontWeight: "600",
+    color: "#1A7F64",
   },
 });

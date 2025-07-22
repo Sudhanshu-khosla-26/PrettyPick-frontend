@@ -45,19 +45,19 @@ const CheckoutScreen = () => {
       {/* Payment Section */}
       <Text style={styles.paymentLabel}>Payment</Text>
       <View style={styles.paymentCard}>
-        <Image source={require('../../assets/images/visa.png')} style={styles.logo} />
+        <Image source={require('../../../assets/images/visa.png')} style={styles.logo} />
         <Text>********2109</Text>
       </View>
       <View style={styles.paymentCard}>
-        <Image source={require('../../assets/images/paypal.png')} style={styles.logo} />
+        <Image source={require('../../../assets/images/paypal.png')} style={styles.logo} />
         <Text>********2109</Text>
       </View>
       <View style={styles.paymentCard}>
-        <Image source={require('../../assets/images/mastercard.png')} style={styles.logo} />
+        <Image source={require('../../../assets/images/mastercard.png')} style={styles.logo} />
         <Text>********2109</Text>
       </View>
       <View style={styles.paymentCard}>
-        <Image source={require('../../assets/images/upi.png')} style={styles.logo} />
+        <Image source={require('../../../assets/images/upi.png')} style={styles.logo} />
         <Text>********2109</Text>
       </View>
 

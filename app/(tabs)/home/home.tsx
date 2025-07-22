@@ -51,7 +51,7 @@ const Home = () => {
       {/* Hero */}
       <Animated.View style={[styles.banner, { opacity: fadeAnim }]}>
         <Image
-          source={require("../../assets/images/fash.jpg")}
+          source={require("../../../assets/images/fash.jpg")}
           style={styles.bannerImage}
         />
         <View style={styles.bannerOverlay}>
@@ -79,7 +79,7 @@ const Home = () => {
             <TouchableOpacity
               key={item._id}
               style={styles.productCard}
-              onPress={() => router.push(`./shop/${item?._id!}`)}
+              onPress={() => router.replace(`/shop/${item?._id!}`)}
             >
               <Image source={item.images[0]!} style={styles.productImage} />
               <Text style={styles.productName}>{item.name!}</Text>
