@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -6,8 +7,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 const SettingsScreen = () => {
   const router = useRouter();
 
-  const LogOut = () => {
-    localStorage.removeItem("user");
+  const LogOut = async () => {
+    await AsyncStorage.removeItem("user");
     router.replace("/(auth)/signin");
   };
 
@@ -25,7 +26,7 @@ const SettingsScreen = () => {
 
       <TouchableOpacity
         style={styles.option}
-        onPress={() => router.push("/(tabs)/wishlist")}
+        onPress={() => router.push("/home/wishlist")}
       >
         <Ionicons name="heart-outline" size={20} color="#333" />
         <Text style={styles.optionText}>Wishlist</Text>
@@ -33,19 +34,19 @@ const SettingsScreen = () => {
 
       <TouchableOpacity
         style={styles.option}
-        onPress={() => router.push("./(tabs)/orders")}
+        onPress={() => router.push("/shop/orders")}
       >
         <Ionicons name="cart-outline" size={20} color="#333" />
         <Text style={styles.optionText}>My Orders</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.option}
         onPress={() => router.push("./(tabs)/password")}
       >
         <Ionicons name="key-outline" size={20} color="#333" />
         <Text style={styles.optionText}>Passwords</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         style={styles.option}

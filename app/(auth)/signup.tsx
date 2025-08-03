@@ -1,71 +1,3 @@
-// import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-// import React from 'react';
-// import { router } from 'expo-router';
-
-// const SignUpScreen = () => {
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Create Account</Text>
-
-//       <TextInput placeholder="Name" style={styles.input} />
-//       <TextInput placeholder="Email" keyboardType="email-address" style={styles.input} />
-//       <TextInput placeholder="Password" secureTextEntry style={styles.input} />
-//       <TextInput placeholder="Confirm Password" secureTextEntry style={styles.input} />
-
-//       <TouchableOpacity style={styles.button}>
-//         <Text style={styles.buttonText}>Sign Up</Text>
-//       </TouchableOpacity>
-
-//       <TouchableOpacity onPress={() => router.push('./auth/signin')}>
-//         <Text style={styles.link}>Already have an account? Sign In</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// export default SignUpScreen;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     padding: 24,
-//     justifyContent: 'center',
-//   },
-//   title: {
-//     fontSize: 28,
-//     fontWeight: 'bold',
-//     marginBottom: 32,
-//     textAlign: 'center',
-//     color: '#111',
-//   },
-//   input: {
-//     borderWidth: 1,
-//     borderColor: '#ddd',
-//     borderRadius: 8,
-//     padding: 14,
-//     marginBottom: 16,
-//     fontSize: 16,
-//   },
-//   button: {
-//     backgroundColor: '#ff66b3',
-//     paddingVertical: 16,
-//     borderRadius: 8,
-//     marginTop: 8,
-//   },
-//   buttonText: {
-//     textAlign: 'center',
-//     color: '#fff',
-//     fontWeight: 'bold',
-//     fontSize: 16,
-//   },
-//   link: {
-//     color: '#888',
-//     marginTop: 16,
-//     textAlign: 'center',
-//     textDecorationLine: 'underline',
-//   },
-// });
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -77,6 +9,7 @@ import {
   View,
 } from "react-native";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./authStyles";
 
 export default function SignUp() {
@@ -110,7 +43,7 @@ export default function SignUp() {
     });
 
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
+      AsyncStorage.setItem("user", JSON.stringify(user));
       setFullName("");
       setConfirmPassword("");
       setPassword("");
@@ -119,10 +52,20 @@ export default function SignUp() {
     }
   };
 
+  React.useEffect(() => {
+    const checkUser = async () => {
+      const user = await AsyncStorage.getItem("user");
+      if (user) {
+        router.replace("/(tabs)/home");
+      }
+    };
+    checkUser();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Image
-        source={require("../../assets/images/signup-illustration.png")}
+        source={require("../../assets/images/signup_illustration.webp")}
         style={styles.illustration}
       />
 

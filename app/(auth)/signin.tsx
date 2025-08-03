@@ -1,126 +1,4 @@
-// import React, { useState } from 'react';
-// import {
-//   View,
-//   Text,
-//   TextInput,
-//   TouchableOpacity,
-//   StyleSheet,
-//   KeyboardAvoidingView,
-//   Platform,
-// } from 'react-native';
-// import { router } from 'expo-router';
-
-// const SignInScreen = () => {
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-
-//   return (
-//     <KeyboardAvoidingView
-//       style={styles.container}
-//       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-//     >
-//       <Text style={styles.title}>Welcome Back!</Text>
-
-//       <TextInput
-//         placeholder="Email"
-//         placeholderTextColor="#999"
-//         keyboardType="email-address"
-//         value={email}
-//         onChangeText={setEmail}
-//         style={styles.input}
-//       />
-//       <TextInput
-//         placeholder="Password"
-//         placeholderTextColor="#999"
-//         secureTextEntry
-//         value={password}
-//         onChangeText={setPassword}
-//         style={styles.input}
-//       />
-
-//       <TouchableOpacity style={styles.button}>
-//         <Text style={styles.buttonText}>Sign In</Text>
-//       </TouchableOpacity>
-
-//       <TouchableOpacity onPress={() => router.replace('./auth/signup')}>
-//         <Text style={styles.link}>Don't have an account? Sign Up</Text>
-//       </TouchableOpacity>
-//     </KeyboardAvoidingView>
-//   );
-// };
-
-// export default SignInScreen;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     justifyContent: 'center',
-//     padding: 20,
-//   },
-//   title: {
-//     fontSize: 32,
-//     fontWeight: '700',
-//     color: '#ff66b3',
-//     marginBottom: 40,
-//     textAlign: 'center',
-//   },
-//   input: {
-//     height: 50,
-//     borderColor: '#ff66b3',
-//     borderWidth: 1,
-//     borderRadius: 10,
-//     paddingHorizontal: 15,
-//     marginBottom: 20,
-//     fontSize: 16,
-//   },
-//   button: {
-//     backgroundColor: '#ff66b3',
-//     paddingVertical: 15,
-//     borderRadius: 10,
-//     marginBottom: 15,
-//   },
-//   buttonText: {
-//     color: '#fff',
-//     textAlign: 'center',
-//     fontWeight: '600',
-//     fontSize: 16,
-//   },
-//   link: {
-//     textAlign: 'center',
-//     color: '#888',
-//     textDecorationLine: 'underline',
-//   },
-// });
-// import React from 'react';
-// import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
-// import { Link } from 'expo-router';
-// import styles from './authStyles';
-
-// const SignIn = () => {
-//   return (
-//     <View style={styles.container}>
-//       <Image source={require('../../assets/images/signin-illustration.png')} style={styles.illustration} />
-
-//       <Text style={styles.title}>Welcome Back</Text>
-//       <Text style={styles.subtitle}>Login to your account</Text>
-
-//       <TextInput placeholder="Email" placeholderTextColor="#999" style={styles.input} />
-//       <TextInput placeholder="Password" placeholderTextColor="#999" secureTextEntry style={styles.input} />
-
-//       <TouchableOpacity style={styles.button}>
-//         <Text style={styles.buttonText}>Sign In</Text>
-//       </TouchableOpacity>
-
-//       <View style={styles.linkRow}>
-//         <Link href="/signup" style={styles.linkText}>Don't have an account?</Link>
-//         <Link href="/forgot" style={styles.linkText}>Forgot Password?</Link>
-//       </View>
-//     </View>
-//   );
-// };
-
-// export default SignIn;
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -161,10 +39,20 @@ const SignInScreen = () => {
 
     if (jsonUser) {
       // console.log(jsonUser);
-      localStorage.setItem("user", JSON.stringify(jsonUser));
+      AsyncStorage.setItem("user", JSON.stringify(jsonUser));
       router.replace("/(tabs)/home/home");
     }
   };
+
+  React.useEffect(() => {
+    const checkUser = async () => {
+      const user = await AsyncStorage.getItem("user");
+      if (user) {
+        router.replace("/(tabs)/home");
+      }
+    };
+    checkUser();
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -172,7 +60,7 @@ const SignInScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <Image
-        source={require("../../assets/images/signin-illustration.png")}
+        source={require("../../assets/images/signin_illustration.png")}
         style={styles.illustration}
       />
 

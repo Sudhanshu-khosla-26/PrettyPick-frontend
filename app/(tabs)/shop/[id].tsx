@@ -1,4 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import axios from "axios";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -21,7 +23,6 @@ const ProductDetailScreen = () => {
   const [itemDetails, setItemDetails] = useState();
   const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const token = JSON.parse(localStorage.getItem("user")!).token;
 
   const getAllProducts = async () => {
     const products = await axios.get(`http://localhost:5000/api/products`);
@@ -37,6 +38,9 @@ const ProductDetailScreen = () => {
   };
 
   const handleAddToCart = async () => {
+    let unjsondata = await AsyncStorage.getItem("user")!;
+    const jsondata = JSON.parse(unjsondata as any);
+    const token = jsondata.token;
     const item = await axios.post(
       "http://localhost:5000/api/cart",
       {

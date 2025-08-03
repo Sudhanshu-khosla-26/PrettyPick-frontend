@@ -7,35 +7,39 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const HomeScreen = () => {
   const router = useRouter();
 
   return (
-    <ImageBackground
-      source={require("../assets/images/fash.jpg")}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <LinearGradient
-        colors={["rgba(0,0,0,0.6)", "rgba(0,0,0,0.8)"]}
-        style={styles.overlay}
+    <SafeAreaView style={{ flex: 1 }}>
+      <ImageBackground
+        source={require("../assets/images/fash.jpg")}
+        style={styles.background}
+        resizeMode="cover"
       >
-        <View style={styles.container}>
-          <Text style={styles.title}>Pretty Pick</Text>
-          <Text style={styles.subtitle}>
-            Style that speaks before you do ✨
-          </Text>
+        <LinearGradient
+          colors={["rgba(0,0,0,0.6)", "rgba(0,0,0,0.8)"]}
+          style={styles.overlay}
+        >
+          <View style={styles.container}>
+            <Text style={styles.title}>Pretty Pick</Text>
+            <Text style={styles.subtitle}>
+              Style that speaks before you do ✨
+            </Text>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => router.push("(tabs)/onboarding")}
-          >
-            <Text style={styles.buttonText}>Get Started</Text>
-          </TouchableOpacity>
-        </View>
-      </LinearGradient>
-    </ImageBackground>
+            <TouchableOpacity
+              style={styles.button}
+              activeOpacity={0.8}
+              onPress={() => router.push("(tabs)/onboarding")}
+            >
+              <Text style={styles.buttonText}>Get Started</Text>
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 

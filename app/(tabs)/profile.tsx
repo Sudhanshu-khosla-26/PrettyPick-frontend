@@ -1,6 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -12,21 +14,48 @@ import {
 } from "react-native";
 
 export default function ProfileScreen() {
-  const user = JSON.parse(localStorage.getItem("user")!).user;
-  const [email, setEmail] = useState(user.email! || "");
+  const [user, setUser] = useState<any>(null);
+
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [pincode, setPincode] = useState(user.pincode! || "");
-  const [address, setAddress] = useState(user.address || "");
-  const [city, setCity] = useState(user.city || "");
-  const [state, setState] = useState(user.state || "");
-  const [country, setCountry] = useState(user.country || "");
-  const [accountNumber, setAccountNumber] = useState(user.accountNumber || "");
-  const [accountHolder, setAccountHolder] = useState(user.accountHolder || "");
-  const [ifsc, setIfsc] = useState(user.ifsc || "");
-  const token = JSON.parse(localStorage.getItem("user")!).token;
-  console.log(user, "user");
+  const [pincode, setPincode] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountHolder, setAccountHolder] = useState("");
+  const [ifsc, setIfsc] = useState("");
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const userString = await AsyncStorage.getItem("user");
+        if (userString) {
+          const parsedUser = JSON.parse(userString).user;
+          setUser(parsedUser);
+
+          setEmail(parsedUser.email || "");
+          setPincode(parsedUser.pincode || "");
+          setAddress(parsedUser.address || "");
+          setCity(parsedUser.city || "");
+          setState(parsedUser.state || "");
+          setCountry(parsedUser.country || "");
+          setAccountNumber(parsedUser.accountNumber || "");
+          setAccountHolder(parsedUser.accountHolder || "");
+          setIfsc(parsedUser.ifsc || "");
+        }
+      } catch (err) {
+        console.error("Failed to load user from storage", err);
+      }
+    };
+
+    loadUser();
+  }, []);
 
   const handleSave = async () => {
+    const userString = await AsyncStorage.getItem("user");
+    const token = userString ? JSON.parse(userString).token : null;
     const result = await axios.post(
       "http://localhost:5000/api/auth/update-profile",
       {
@@ -46,7 +75,7 @@ export default function ProfileScreen() {
       }
     );
 
-    localStorage.setItem("user", JSON.stringify({ token, ...result.data }));
+    AsyncStorage.setItem("user", JSON.stringify({ token, ...result.data }));
     console.log(result.data.user, "result");
   };
 

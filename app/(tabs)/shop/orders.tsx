@@ -1,10 +1,55 @@
-import React from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import { useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 const OrdersScreen = () => {
   const router = useRouter();
+  const [orders, setOrders] = useState<any[]>([]);
+  const [showAll, setShowAll] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const user = await AsyncStorage.getItem("user");
+        const token = user ? JSON.parse(user).token : null;
+
+        const res = await axios.get("http://localhost:5000/api/orders", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log(res);
+        setOrders(res.data as any);
+      } catch (err) {
+        // handle error as needed
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrders();
+  }, []);
+
+  if (loading) {
+    return (
+      <View
+        style={[
+          styles.container,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+      >
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -19,41 +64,102 @@ const OrdersScreen = () => {
         <View style={{ width: 24 }} />
       </View>
 
-      <View style={styles.card}>
-        <View style={styles.topRow}>
-          <Image
-            source={require("../../../assets/images/thir.jpg")}
-            style={styles.productImage}
-          />
-          <View style={styles.details}>
-            <Text style={styles.name}>Crop Top</Text>
-            <Text style={styles.label}>Variations :</Text>
-            <View style={styles.variations}>
-              <Text style={styles.tag}>Black</Text>
-              <Text style={styles.tag}>Red</Text>
-            </View>
-            <Text style={styles.inStock}>In Stock</Text>
-            <View style={styles.priceTag}>
-              <Text style={styles.price}>₹ 800.00</Text>
-            </View>
-          </View>
-        </View>
+      {orders.length === 0 ? (
+        <Text>No orders found.</Text>
+      ) : (
+        // Sort orders by totalAmount (small to big)
+        [...orders]
+          .sort((a, b) => (a.totalAmount || 0) - (b.totalAmount || 0))
+          .map((order, idx) => {
+            const itemsToShow = showAll
+              ? order.items
+              : order.items?.slice(0, 1);
 
-        <View style={styles.metaRow}>
-          <Text style={styles.meta}>
-            Ordered on: <Text style={styles.metaValue}>10th June 2025</Text>
-          </Text>
-          <Text style={styles.meta}>
-            Delivered on: <Text style={styles.metaValue}>19th June 2025</Text>
-          </Text>
-        </View>
-      </View>
+            return (
+              <View style={styles.card} key={order._id || idx}>
+                <Text style={styles.name}>
+                  Order #{order._id?.slice(-6) || idx + 1}
+                </Text>
+                <Text style={styles.meta}>
+                  Status: <Text style={styles.metaValue}>{order.status}</Text>
+                </Text>
+                <Text style={styles.meta}>
+                  Placed on:{" "}
+                  <Text style={styles.metaValue}>
+                    {order.createdAt
+                      ? new Date(order.createdAt).toLocaleString()
+                      : "-"}
+                  </Text>
+                </Text>
+                <Text style={styles.meta}>
+                  Total:{" "}
+                  <Text style={styles.metaValue}>
+                    ₹ {order.totalAmount?.toFixed(2) || "0.00"}
+                  </Text>
+                </Text>
+                <Text style={styles.meta}>
+                  Delivery Address:{" "}
+                  <Text style={styles.metaValue}>
+                    {order.deliveryAddress
+                      ? `${order.deliveryAddress.street}, ${order.deliveryAddress.city}, ${order.deliveryAddress.state} - ${order.deliveryAddress.pincode}`
+                      : "-"}
+                  </Text>
+                </Text>
+                <View style={{ marginTop: 10 }}>
+                  {(itemsToShow || []).map((item: any, i: number) => (
+                    <View
+                      style={[styles.topRow, { marginBottom: 8 }]}
+                      key={item._id || i}
+                    >
+                      <Image
+                        source={
+                          item.product?.images?.[0]
+                            ? { uri: item.product.images[0] }
+                            : require("../../../assets/images/thir.jpg")
+                        }
+                        style={styles.productImage}
+                      />
+                      <View style={styles.details}>
+                        <Text style={styles.name}>
+                          {item.product?.name || "Product Name"}
+                        </Text>
+                        <Text style={styles.label}>Qty: {item.quantity}</Text>
+                        <Text style={styles.label}>
+                          Price: ₹ {item.product?.price?.toFixed(2) || "0.00"}
+                        </Text>
+                        <Text style={styles.label}>
+                          In Stock: {item.product?.stock ?? "-"}
+                        </Text>
+                      </View>
+                    </View>
+                  ))}
+                  {order.items && order.items.length > 1 && (
+                    <Text
+                      style={{
+                        color: "#007b83",
+                        marginTop: 4,
+                        fontWeight: "600",
+                        fontSize: 13,
+                      }}
+                      onPress={() => setShowAll((prev) => !prev)}
+                    >
+                      {showAll
+                        ? "Show less"
+                        : `Read more (${order.items.length - 1} more)`}
+                    </Text>
+                  )}
+                </View>
+              </View>
+            );
+          })
+      )}
     </ScrollView>
   );
 };
 
 export default OrdersScreen;
 
+// ...styles remain unchanged
 const styles = StyleSheet.create({
   container: {
     flex: 1,
